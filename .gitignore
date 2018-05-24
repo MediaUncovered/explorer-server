@@ -56,3 +56,10 @@ docs/_build/
 
 # PyBuilder
 target/
+
+
+#PyCharm
+.idea/
+
+#Pytest
+.pytest_cache
