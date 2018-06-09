@@ -1,3 +1,6 @@
+# OSX
+.DS_STORE
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -63,3 +66,5 @@ target/
 
 #Pytest
 .pytest_cache
+
+/models
