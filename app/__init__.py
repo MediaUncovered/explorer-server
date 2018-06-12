@@ -1,11 +1,13 @@
 import os
 
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 from newsAnalysis.Model import Model
 
 
 def create_app(model_path=None):
     app = Flask(__name__)
+    CORS(app)
 
     if model_path is None:
         model_path = os.path.abspath("./models/model")
