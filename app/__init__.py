@@ -24,4 +24,8 @@ def create_app(model_path=None):
 
         return jsonify(body)
 
+    @app.route('/info')
+    def info():
+        return jsonify(app.model.name)
+
     return app
