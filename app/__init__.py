@@ -2,6 +2,7 @@ import os
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+
 from newsAnalysis.Model import Model
 
 
@@ -11,9 +12,9 @@ def create_app(model_path=None):
 
     if model_path is None:
         model_path = os.path.abspath("./models/model")
+        model_path = '../NewsAnalysis/models/Moscow_Times_1000_fasttext'
 
-    app.model = Model(name="model", modelType="fasttext", model_path=model_path)
-    app.model.load()
+    app.model = Model().load(model_path=model_path)
 
     @app.route('/query/<string:word>')
     def query(word):
@@ -26,6 +27,6 @@ def create_app(model_path=None):
 
     @app.route('/info')
     def info():
-        return jsonify(app.model.name)
+        return app.model.collectionInfo.toJson()
 
     return app
