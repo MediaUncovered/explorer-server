@@ -29,4 +29,11 @@ def create_app(model_path=None):
     def info():
         return app.model.collectionInfo.toJson()
 
+    @app.route('/keywordMapping', methods=['POST'])
+    def keywordMapping():
+        data = request.get_json()
+        mapping = app.model.keywordMapping(data['keywords'], [data['left']], [data['right']])
+        body = {'mapping': list(mapping)}
+        return jsonify(body)
+
     return app
