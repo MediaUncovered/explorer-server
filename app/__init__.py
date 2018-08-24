@@ -32,7 +32,7 @@ def create_app(model_path=None):
     @app.route('/keywordMapping', methods=['POST'])
     def keywordMapping():
         data = request.get_json()
-        mapping = app.model.keywordMapping(data['keywords'], [data['left']], [data['right']])
+        mapping = app.model.keywordMapping(data['keywords'], data['left'], data['right'])
         body = {'mapping': list(mapping)}
         return jsonify(body)
 
