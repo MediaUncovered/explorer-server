@@ -12,7 +12,6 @@ def create_app(model_path=None):
 
     if model_path is None:
         model_path = os.path.abspath("./models/model")
-        model_path = '../NewsAnalysis/models/Moscow_Times_1000_fasttext'
 
     app.model = Model().load(model_path=model_path)
 
