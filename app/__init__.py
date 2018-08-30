@@ -4,16 +4,14 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 from newsAnalysis.Model import Model
+import config
 
 
-def create_app(model_path=None):
+def create_app():
     app = Flask(__name__)
     CORS(app)
 
-    if model_path is None:
-        model_path = os.path.abspath("./models/model")
-
-    app.model = Model().load(model_path=model_path)
+    app.model = Model().load(model_path=config.MODEL_PATH)
 
     @app.route('/query/<string:word>')
     def query(word):
