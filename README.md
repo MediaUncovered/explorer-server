@@ -13,7 +13,7 @@ Development
 -----------
 After you've built your image use
 `docker-compose up`
-to start a development server on port 5000. Any changes made under ./src and ./models
+to start a development server on port 5000. Any changes made under ./app and ./models
 will be reflected in the running application.
 
 
