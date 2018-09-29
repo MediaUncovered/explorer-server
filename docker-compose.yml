@@ -5,6 +5,7 @@ services:
     build: .
     environment:
         MODELS_PATH: './models'
+        FLASK_ENV: development
     ports:
       - 5000:5000
     volumes:

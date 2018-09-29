@@ -5,16 +5,20 @@ import os
 from newsAnalysis.Model import Model
 
 
-def create_app(models_path):
+def create_app(model_config):
     app = Flask(__name__)
+    app.model_config = model_config
     app.model = None
+
     CORS(app)
 
     def get_model(model_name):
-        if app.model is None:
-            model_path = os.path.join(models_path, model_name)
-            app.model = Model().load(model_path=model_path)
-        return app.model
+        return model_config.load_model(model_name)
+
+    @app.route('/models')
+    def index():
+        body = model_config.models()
+        return jsonify(body)
 
     @app.route('/models/<string:model_name>/query/<string:word>')
     def query(model_name, word):

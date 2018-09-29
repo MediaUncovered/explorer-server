@@ -2,7 +2,6 @@ FROM python:3.6.5
 
 COPY ./app /flask-explorer/app
 COPY ./server.py /flask-explorer/server.py
-COPY ./config.py /flask-explorer/config.py
 
 WORKDIR /flask-explorer
 
