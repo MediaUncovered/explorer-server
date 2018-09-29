@@ -1,0 +1,14 @@
+version: '3'
+services:
+  runner:
+    image: mediauncovered/explorer-server:dev
+    build: .
+    environment:
+        MODELS_PATH: './models/model'
+    ports:
+      - 5000:5000
+    volumes:
+      - ./models:/flask-explorer/models
+      - ./app:/flask-explorer/app
+      - ./test:/flask-explorer/test
+    command: pytest test/

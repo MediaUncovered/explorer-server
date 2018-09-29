@@ -6,7 +6,7 @@ from app import create_app
 
 @pytest.fixture
 def app():
-    model_path = os.path.abspath("./models/Moscow_Times_100_fasttext")
+    models_path = os.path.abspath("./test/models")
 
-    app = create_app(model_path=model_path)
+    app = create_app(models_path=models_path)
     return app

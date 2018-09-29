@@ -4,7 +4,7 @@ services:
     image: mediauncovered/explorer-server:dev
     build: .
     environment:
-        MODEL_PATH: './models/model'
+        MODELS_PATH: './models'
     ports:
       - 5000:5000
     volumes:
