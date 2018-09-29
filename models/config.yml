@@ -1,3 +1,2 @@
----
-label: basic
-file: model
+basic:
+  file: model
