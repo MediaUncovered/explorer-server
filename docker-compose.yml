@@ -9,3 +9,4 @@ services:
       - 5000:5000
     volumes:
       - ./models:/flask-explorer/models
+      - ./app:/flask-explorer/app
