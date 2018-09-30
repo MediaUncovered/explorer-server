@@ -1,3 +1,3 @@
 import os
 
-MODEL_PATH = os.getenv('MODEL_PATH', './models/model')
+MODELS_PATH = os.getenv('MODELS_PATH', './models')
