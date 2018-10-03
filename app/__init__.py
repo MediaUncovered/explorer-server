@@ -25,7 +25,7 @@ def create_app(model_config):
 
     @app.route('/query/<string:word>')
     def query(word):
-        count = int(request.args.get('count', 30))
+        count = int(request.args.get('count', 50))
         similarWords = app.model.word_embedding.wv.similar_by_word(word, topn=count)
         body = [{"label": result[0], "value": result[1]} for result in similarWords]
 
