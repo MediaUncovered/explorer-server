@@ -12,7 +12,7 @@ def create_app(model_config):
 
     CORS(app)
 
-    @app.route('/models/select', methods=['POST'])
+    @app.route('/selectModel', methods=['POST'])
     def set_model():
         data = request.get_json()
         app.model = model_config.load_model(data['model_name'])
@@ -23,7 +23,7 @@ def create_app(model_config):
         body = model_config.models()
         return jsonify(body)
 
-    @app.route('/models/query/<string:word>')
+    @app.route('/query/<string:word>')
     def query(word):
         count = int(request.args.get('count', 30))
         similarWords = app.model.word_embedding.wv.similar_by_word(word, topn=count)
@@ -31,29 +31,31 @@ def create_app(model_config):
 
         return jsonify(body)
 
-    @app.route('/models/info')
+    @app.route('/info')
     def info():
         return app.model.collectionInfo.toJson()
 
-    @app.route('/models/reliability')
+    @app.route('/reliability')
     def reliability():
         body = [{"section": elem['section'], "nr_total": elem["nr_total"], "nr_correct": elem["nr_correct"]} for elem in app.model.accuracy]
         return jsonify(body)
 
-    @app.route('/models/keywordMapping', methods=['POST'])
+    @app.route('/keywordMapping', methods=['POST'])
     def keywordMapping():
         data = request.get_json()
         mapping = app.model.keywordMapping(data['keywords'], data['left'], data['right'])
         body = {'mapping': list(mapping)}
         return jsonify(body)
 
-    @app.route('/models/modelInfo')
+    @app.route('/modelInfo')
     def modelInfo():
         return app.model.modelInfo.toJson()
 
     @app.route('/analogies', methods=['POST'])
     def generateAnalogies():
-        data = [{'x':'x', 'y':'y', 'score':0.75}, {'x':'x2', 'y':'y2', 'score':0.33}]
-        return jsonify(data)
+        data = request.get_json()['wordpair']
+        analogies = app.model.generate_analogies(data['a'], data['b'], 1000)
+        analogies = analogies[['x', 'y', 'score']]
+        return jsonify(analogies.to_dict(orient='records'))
 
     return app
