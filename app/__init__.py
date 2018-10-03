@@ -37,7 +37,7 @@ def create_app(model_config):
 
     @app.route('/reliability')
     def reliability():
-        body = [{"section": elem['section'], "nr_total": elem["nr_total"], "nr_correct": elem["nr_correct"]} for elem in app.model.accuracy]
+        body = [{"section": elem['section'], "nr_total": elem["nr_total"], "nr_correct": elem["nr_correct"], "percentage":round((elem["nr_correct"]/elem["nr_total"])*100, 3)} for elem in app.model.accuracy]
         return jsonify(body)
 
     @app.route('/keywordMapping', methods=['POST'])
