@@ -12,9 +12,10 @@ def create_app(model_config):
 
     CORS(app)
 
-    @app.route('/models/<string:model_name>')
-    def set_model(model_name):
-        app.model = model_config.load_model(model_name)
+    @app.route('/models/select', methods=['POST'])
+    def set_model():
+        data = request.get_json()
+        app.model = model_config.load_model(data['model_name'])
         return '{}'
 
     @app.route('/models')
