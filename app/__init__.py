@@ -54,8 +54,10 @@ def create_app(model_config):
     @app.route('/analogies', methods=['POST'])
     def generateAnalogies():
         data = request.get_json()['wordpair']
-        analogies = app.model.generate_analogies(data['a'], data['b'], 1000)
+        analogies = app.model.generate_analogies(data['a'], data['b'], 3000)
         analogies = analogies[['x', 'y', 'score']]
+        analogies = analogies[analogies['score']>=0.15]
+        analogies['score'] = analogies['score'].round(4)
         return jsonify(analogies.to_dict(orient='records'))
 
     return app
