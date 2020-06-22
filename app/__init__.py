@@ -55,9 +55,11 @@ def create_app(model_config):
     def generateAnalogies():
         data = request.get_json()['wordpair']
         analogies = app.model.generate_analogies(data['a'], data['b'], 3000)
-        analogies = analogies[['x', 'y', 'score']]
-        analogies = analogies[analogies['score']>=0.15]
+        analogies = analogies[[data['a'], data['b'], 'score']]
+        analogies = analogies[analogies['score']>=0.15][:25]
         analogies['score'] = analogies['score'].round(4)
+        analogies.rename(columns={data['a']: 'x', data['b']: 'y'},
+                         inplace=True)
         return jsonify(analogies.to_dict(orient='records'))
 
     return app
