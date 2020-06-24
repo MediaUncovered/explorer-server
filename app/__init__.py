@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from werkzeug.debug import DebuggedApplication
 from flask_cors import CORS
 import os
 
@@ -11,6 +12,9 @@ def create_app(model_config):
     app.model = None
 
     CORS(app)
+
+    if app.debug:
+        app.wsgi_app = DebuggedApplication(app.wsgi_app, evalex=True)
 
     @app.route('/selectModel', methods=['POST'])
     def set_model():
@@ -25,6 +29,7 @@ def create_app(model_config):
 
     @app.route('/query/<string:word>')
     def query(word):
+        1 / 0
         count = int(request.args.get('count', 50))
         similarWords = app.model.word_embedding.wv.similar_by_word(word, topn=count)
         body = [{"label": result[0], "value": result[1]} for result in similarWords]
@@ -51,7 +56,7 @@ def create_app(model_config):
     def keywordMapping():
         data = request.get_json()
         mapping = app.model.keywordMapping(data['keywords'], data['left'], data['right'])
-        body = {'mapping': list(mapping)}
+        body = {'mapping': mapping.tolist()}
         return jsonify(body)
 
     @app.route('/modelInfo')
