@@ -29,7 +29,6 @@ def create_app(model_config):
 
     @app.route('/query/<string:word>')
     def query(word):
-        1 / 0
         count = int(request.args.get('count', 50))
         similarWords = app.model.word_embedding.wv.similar_by_word(word, topn=count)
         body = [{"label": result[0], "value": result[1]} for result in similarWords]
@@ -55,8 +54,12 @@ def create_app(model_config):
     @app.route('/keywordMapping', methods=['POST'])
     def keywordMapping():
         data = request.get_json()
-        mapping = app.model.keywordMapping(data['keywords'], data['left'], data['right'])
-        body = {'mapping': mapping.tolist()}
+        keywords, oov_kw = app.model.filterNonVocabWords(data['keywords'])
+        left_axis, oov_left = app.model.filterNonVocabWords(data['left'])
+        right_axis, oov_right = app.model.filterNonVocabWords(data['right'])
+        oov = oov_kw + oov_left + oov_right
+        mapping = app.model.keywordMapping(keywords, left_axis, right_axis)
+        body = {'keywords': keywords, 'mapping': mapping.tolist(), 'oov': oov}
         return jsonify(body)
 
     @app.route('/modelInfo')
