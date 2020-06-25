@@ -1,2 +1,4 @@
-basic:
-  file: model
+model1:
+    file: model
+model2:
+    file: model2

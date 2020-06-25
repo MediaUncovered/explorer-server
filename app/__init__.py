@@ -58,8 +58,11 @@ def create_app(model_config):
         left_axis, oov_left = app.model.filterNonVocabWords(data['left'])
         right_axis, oov_right = app.model.filterNonVocabWords(data['right'])
         oov = oov_kw + oov_left + oov_right
-        mapping = app.model.keywordMapping(keywords, left_axis, right_axis)
-        body = {'keywords': keywords, 'mapping': mapping.tolist(), 'oov': oov}
+        if len(right_axis)==0 or len(left_axis)==0:
+            mapping = []
+        else:
+            mapping = app.model.keywordMapping(keywords, left_axis, right_axis).tolist()
+        body = {'keywords': keywords, 'mapping': mapping, 'oov': oov}
         return jsonify(body)
 
     @app.route('/modelInfo')
